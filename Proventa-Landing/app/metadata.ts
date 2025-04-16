@@ -5,6 +5,23 @@ export const metadata: Metadata = {
   title: "Proventa | Predict. Prevent. Prosper.",
   description: "Proventa is a radically personalized health platform that integrates your wearable, wellness, and environmental data to predict vulnerabilities before they appear.",
   keywords: "health platform, preventative healthcare, wellness tracking, health prediction, personalized health",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' }
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+    ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/favicon.svg',
+      },
+    ],
+  },
+  manifest: '/site.webmanifest',
   openGraph: {
     title: "Proventa | Predict. Prevent. Prosper.",
     description: "Proventa is a radically personalized health platform that integrates your wearable, wellness, and environmental data to predict vulnerabilities before they appear.",
