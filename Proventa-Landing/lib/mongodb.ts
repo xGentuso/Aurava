@@ -31,6 +31,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 async function connectDB() {
+  // Ensure MONGODB_URI is defined
+  if (!MONGODB_URI) {
+    throw new Error('MongoDB URI is not defined');
+  }
+
   if (cached.conn) {
     console.log('Using cached MongoDB connection');
     return cached.conn;
@@ -56,6 +61,7 @@ async function connectDB() {
       // Enable debug mode for connection issues
       mongoose.set('debug', true);
       
+      // TypeScript now knows MONGODB_URI is definitely a string
       cached.promise = mongoose.connect(MONGODB_URI, opts);
     }
 
