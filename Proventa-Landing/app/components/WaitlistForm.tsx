@@ -40,16 +40,16 @@ export default function WaitlistForm() {
     setFormState({ state: 'loading', message: '' });
 
     try {
-      // Use relative URL in development and absolute URL in production
-      const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL 
-        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
-        : '';
+      // In production, use the actual domain
+      const isProduction = process.env.NODE_ENV === 'production';
+      const baseUrl = isProduction ? 'https://www.proventa.health' : '';
       
       const response = await fetch(`${baseUrl}/api/waitlist`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Include credentials for CORS
         body: JSON.stringify({ 
           email,
           name: email.split('@')[0], // Use part before @ as temporary name
