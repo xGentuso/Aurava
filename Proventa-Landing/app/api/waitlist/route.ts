@@ -1,26 +1,16 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Waitlist from '@/models/Waitlist';
-import mongoose from 'mongoose';
-
-// Define the schema if not already defined elsewhere
-const waitlistSchema = new mongoose.Schema({
-  email: String,
-  createdAt: { type: Date, default: Date.now }
-});
-
-// Get the model (or create if doesn't exist)
-const WaitlistModel = mongoose.models.Waitlist || mongoose.model('Waitlist', waitlistSchema);
 
 export async function POST(req: Request) {
   try {
+    await connectDB();
+
     const body = await req.json();
     const { email, name, interests, referralSource } = body;
 
-    await connectDB();
-
     // Check if email already exists
-    const existingUser = await WaitlistModel.findOne({ email });
+    const existingUser = await Waitlist.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
         { error: 'Email already registered for the waitlist' },
@@ -29,23 +19,50 @@ export async function POST(req: Request) {
     }
 
     // Create new waitlist entry
-    const waitlistEntry = await WaitlistModel.create({
+    const waitlistEntry = await Waitlist.create({
       email,
-      name,
-      interests,
-      referralSource,
+      name: name || email.split('@')[0], // Fallback to email username if name not provided
+      interests: interests || ['Health Tracking'], // Default interest
+      referralSource: referralSource || 'Other', // Default source
+      status: 'Pending',
+      notificationPreferences: {
+        email: true,
+        updates: true
+      }
     });
 
-    // TODO: Add email notification logic here
-
     return NextResponse.json(
-      { message: 'Successfully joined the waitlist', data: waitlistEntry },
+      { 
+        status: 'success',
+        message: 'Successfully joined the waitlist',
+        data: waitlistEntry
+      },
       { status: 201 }
     );
   } catch (error: any) {
     console.error('Waitlist submission error:', error);
+    
+    // Handle validation errors
+    if (error instanceof Error) {
+      if (error.name === 'ValidationError') {
+        return NextResponse.json(
+          { 
+            status: 'error',
+            message: 'Validation failed',
+            errors: Object.values(error.errors || {}).map(err => err.message)
+          },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Handle other errors
     return NextResponse.json(
-      { error: error.message || 'Failed to join waitlist' },
+      { 
+        status: 'error',
+        message: 'Failed to join waitlist',
+        error: error.message
+      },
       { status: 500 }
     );
   }
