@@ -1,6 +1,5 @@
 import { Feature, AboutCard } from '../types';
 import { ChartIcon, SecurityIcon, BrainIcon } from '../components/Icons';
-import { DataFeature, AIFeature, RecommendFeature } from '../components/StepFeatures';
 import { ChartBarIcon, SparklesIcon, ArrowTrendingUpIcon } from '@heroicons/react/24/outline';
 import { EarlyDetectionIcon, MonitoringIcon, AnalysisIcon, PredictiveIcon, InsightsIcon, LearningIcon } from '../components/FeatureIcons';
 import React from 'react';

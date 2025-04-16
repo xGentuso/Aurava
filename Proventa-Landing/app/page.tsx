@@ -8,7 +8,7 @@ import ComparisonSection from './components/ComparisonSection';
 import PlatformShowcase from './components/PlatformShowcase';
 import { features, steps } from './constants';
 import WaitlistForm from './components/WaitlistForm';
-import { ErrorBoundary } from './components/ErrorBoundary';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function LoadingSpinner() {
   return (
