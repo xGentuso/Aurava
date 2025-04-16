@@ -14,24 +14,31 @@ const screenshots = [
   },
   {
     id: 2,
-    src: '/Proventa-Metrics.png',
-    alt: 'Proventa Health Metrics',
-    title: 'Health Metrics',
-    description: 'Track and analyze your key health indicators with detailed visualizations.'
+    src: '/Proventa-Insights.png',
+    alt: 'Proventa Health Insights',
+    title: 'Personalized Health Insights',
+    description: 'Receive AI-powered insights tailored to your unique health profile and lifestyle.'
   },
   {
     id: 3,
     src: '/Proventa-Analytics.png',
     alt: 'Proventa Analytics',
     title: 'Predictive Analytics',
-    description: 'Advanced analytics to predict and prevent potential health issues.'
+    description: 'Advanced analytics to predict and prevent potential health issues before they occur.'
   },
   {
     id: 4,
+    src: '/Proventa-Metrics.png',
+    alt: 'Proventa Health Metrics',
+    title: 'Health Metrics',
+    description: 'Track and visualize your key health indicators with detailed analytics.'
+  },
+  {
+    id: 5,
     src: '/Proventa-Calender.png',
     alt: 'Proventa Calendar',
-    title: 'Health Calendar',
-    description: 'Plan and track your health journey with our intuitive calendar.'
+    title: 'Smart Health Calendar',
+    description: 'Plan and track your health journey with our AI-powered scheduling system.'
   }
 ];
 
