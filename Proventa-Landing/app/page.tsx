@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer';
 import Hero from './components/Hero';
 import About from './components/About';
 import ComparisonSection from './components/ComparisonSection';
+import PlatformShowcase from './components/PlatformShowcase';
 import { features, steps } from './constants';
 import WaitlistForm from './components/WaitlistForm';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -37,6 +38,11 @@ export default function Home() {
       <main className="flex min-h-screen flex-col pt-16">
         <Suspense fallback={<LoadingSpinner />}>
           <Hero />
+        </Suspense>
+
+        {/* Platform Showcase Section */}
+        <Suspense fallback={<LoadingSpinner />}>
+          <PlatformShowcase />
         </Suspense>
 
         {/* Features Section */}
