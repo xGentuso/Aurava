@@ -40,7 +40,12 @@ export default function WaitlistForm() {
     setFormState({ state: 'loading', message: '' });
 
     try {
-      const response = await fetch('/api/waitlist', {
+      // Use relative URL in development and absolute URL in production
+      const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL 
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
+        : '';
+      
+      const response = await fetch(`${baseUrl}/api/waitlist`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,21 +58,21 @@ export default function WaitlistForm() {
         }),
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setFormState({
-          state: 'success',
-          message: '🎉 Welcome to the Proventa community! You\'ll receive:\n\n' +
-            '• A confirmation email shortly\n' +
-            '• Early access invitation when we launch\n' +
-            '• Exclusive updates on our development progress\n' +
-            '• Opportunity to shape our product features'
-        });
-        setEmail('');
-      } else {
-        throw new Error(data.error || 'Failed to join waitlist');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to join waitlist');
       }
+
+      const data = await response.json();
+      setFormState({
+        state: 'success',
+        message: '🎉 Welcome to the Proventa community! You\'ll receive:\n\n' +
+          '• A confirmation email shortly\n' +
+          '• Early access invitation when we launch\n' +
+          '• Exclusive updates on our development progress\n' +
+          '• Opportunity to shape our product features'
+      });
+      setEmail('');
     } catch (error) {
       console.error('Form submission error:', error);
       setFormState({
