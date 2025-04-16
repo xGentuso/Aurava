@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 
@@ -10,14 +10,16 @@ const screenshots = [
     src: '/Proventa-Overview.png',
     alt: 'Proventa Platform Overview',
     title: 'Comprehensive Dashboard',
-    description: 'Get a complete overview of your health metrics and predictions in one place.'
+    description: 'Get a complete overview of your health metrics and predictions in one place.',
+    blurDataURL: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkLUEwLi0tLTAtQFBGRkBQRi4tMT43PV1FSVdiWFFhYpacnp/Cw+P/2wBDARUXFx4eHh4fHx8fHx+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5//wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k='
   },
   {
     id: 2,
     src: '/Proventa-Insights.png',
     alt: 'Proventa Health Insights',
     title: 'Personalized Health Insights',
-    description: 'Receive AI-powered insights tailored to your unique health profile and lifestyle.'
+    description: 'Receive AI-powered insights tailored to your unique health profile and lifestyle.',
+    blurDataURL: 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkLUEwLi0tLTAtQFBGRkBQRi4tMT43PV1FSVdiWFFhYpacnp/Cw+P/2wBDARUXFx4eHh4fHx8fHx+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5//wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k='
   },
   {
     id: 3,
@@ -45,6 +47,30 @@ const screenshots = [
 export default function PlatformShowcase() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Preload images
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = screenshots.map((screenshot) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = screenshot.src;
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+      
+      try {
+        await Promise.all(imagePromises);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error preloading images:', error);
+      }
+    };
+
+    preloadImages();
+  }, []);
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -117,8 +143,31 @@ export default function PlatformShowcase() {
                   alt={screenshots[currentIndex].alt}
                   fill
                   className="object-contain rounded-lg shadow-2xl"
-                  priority
+                  priority={currentIndex <= 1}
+                  loading={currentIndex <= 1 ? "eager" : "lazy"}
+                  placeholder="blur"
+                  blurDataURL={screenshots[currentIndex].blurDataURL}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  quality={90}
                 />
+
+                {/* Preload next and previous images */}
+                <div className="hidden">
+                  {[
+                    (currentIndex - 1 + screenshots.length) % screenshots.length,
+                    (currentIndex + 1) % screenshots.length,
+                  ].map((index) => (
+                    <Image
+                      key={screenshots[index].id}
+                      src={screenshots[index].src}
+                      alt=""
+                      width={1}
+                      height={1}
+                      priority
+                    />
+                  ))}
+                </div>
+
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900/60 to-transparent p-6 rounded-b-lg">
                   <h3 className="text-xl font-semibold text-white mb-2">
                     {screenshots[currentIndex].title}
@@ -130,6 +179,13 @@ export default function PlatformShowcase() {
               </div>
             </motion.div>
           </AnimatePresence>
+
+          {/* Loading indicator */}
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100/50 rounded-lg">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
+            </div>
+          )}
 
           {/* Navigation Arrows */}
           <button
