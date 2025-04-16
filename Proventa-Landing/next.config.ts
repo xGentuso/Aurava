@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['aurava.health'], // Add your domain here
+    domains: ['proventa.health'], // Add your domain here
     formats: ['image/avif', 'image/webp'],
   },
   compiler: {

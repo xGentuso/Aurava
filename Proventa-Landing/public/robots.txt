@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://aurava.health/sitemap.xml 
+Sitemap: https://proventa.health/sitemap.xml 
