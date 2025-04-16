@@ -11,19 +11,19 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-declare global {
-  var mongoose: MongooseCache;
-}
+let cached: MongooseCache = {
+  conn: null,
+  promise: null,
+};
 
-// Initialize cached connection
-if (!global.mongoose) {
-  global.mongoose = {
-    conn: null,
-    promise: null,
-  };
+if (process.env.NODE_ENV === 'development') {
+  // In development, use a global variable so that the value
+  // is preserved across module reloads caused by HMR (Hot Module Replacement).
+  if (!global._mongooseCache) {
+    global._mongooseCache = cached;
+  }
+  cached = global._mongooseCache;
 }
-
-const cached = global.mongoose;
 
 async function connectDB() {
   if (cached.conn) {
