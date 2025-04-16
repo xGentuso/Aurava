@@ -48,21 +48,21 @@ export default function Home() {
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 How Proventa Works
               </h2>
-              <p className="mt-6 text-lg leading-8 text-gray-600" data-aos="fade-up" data-aos-delay="100">
+              <p className="mt-6 text-lg leading-8 text-gray-600">
                 Three simple steps to predictive health insights
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 relative">
               {steps.map((step, index) => (
                 <div
                   key={step.id}
-                  className="bg-white rounded-3xl p-8 shadow-[0_0_50px_0_rgba(0,0,0,0.05)] relative"
+                  className="bg-white rounded-3xl p-8 pt-12 shadow-[0_0_50px_0_rgba(0,0,0,0.05)] relative"
                   data-aos="fade-up"
                   data-aos-delay={index * 200}
                 >
                   {/* Step Number Circle */}
-                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-medium">
+                  <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-medium">
                     {index + 1}
                   </div>
 
