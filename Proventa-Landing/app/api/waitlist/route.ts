@@ -3,19 +3,58 @@ import connectDB from '@/lib/mongodb';
 import Waitlist from '@/models/Waitlist';
 import mongoose from 'mongoose';
 
+// Handle CORS preflight requests
+export async function OPTIONS(request: Request) {
+  return NextResponse.json({}, {
+    headers: {
+      'Access-Control-Allow-Origin': 'https://www.proventa.health',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Allow-Credentials': 'true',
+    },
+  });
+}
+
 export async function POST(req: Request) {
+  // Add CORS headers to the response
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': 'https://www.proventa.health',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Credentials': 'true',
+  };
+
   try {
+    // Connect to database
     await connectDB();
 
-    const body = await req.json();
+    // Parse request body
+    let body;
+    try {
+      body = await req.json();
+    } catch (e) {
+      return NextResponse.json(
+        { error: 'Invalid request body' },
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
     const { email, name, interests, referralSource } = body;
+
+    // Validate required fields
+    if (!email) {
+      return NextResponse.json(
+        { error: 'Email is required' },
+        { status: 400, headers: corsHeaders }
+      );
+    }
 
     // Check if email already exists
     const existingUser = await Waitlist.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
         { error: 'Email already registered for the waitlist' },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -38,7 +77,7 @@ export async function POST(req: Request) {
         message: 'Successfully joined the waitlist',
         data: waitlistEntry
       },
-      { status: 201 }
+      { status: 201, headers: corsHeaders }
     );
   } catch (error) {
     console.error('Waitlist submission error:', error);
@@ -51,7 +90,7 @@ export async function POST(req: Request) {
           message: 'Validation failed',
           errors: Object.values(error.errors).map(err => err.message)
         },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -62,12 +101,19 @@ export async function POST(req: Request) {
         message: 'Failed to join waitlist',
         error: error instanceof Error ? error.message : 'Unknown error'
       },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }
 
 export async function GET() {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': 'https://www.proventa.health',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Credentials': 'true',
+  };
+
   try {
     await connectDB();
     
@@ -79,7 +125,7 @@ export async function GET() {
         status: 'success',
         data: entries
       },
-      { status: 200 }
+      { status: 200, headers: corsHeaders }
     );
   } catch (error) {
     console.error('Error fetching waitlist entries:', error);
@@ -89,7 +135,7 @@ export async function GET() {
         message: 'Failed to fetch waitlist entries',
         error: error instanceof Error ? error.message : 'Unknown error'
       },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 } 
