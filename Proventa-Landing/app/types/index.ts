@@ -3,7 +3,7 @@ import React from 'react';
 export interface Feature {
   title: string;
   description: string;
-  icon: (props: any) => React.ReactElement;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 export interface Step {

@@ -1,7 +1,30 @@
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function ComparisonSection() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
     <section className="py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden relative">
       {/* Animated background shapes */}
@@ -18,19 +41,39 @@ export default function ComparisonSection() {
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl text-center mb-16">
-          <span className="inline-flex items-center rounded-full px-4 py-1 text-sm font-medium bg-primary-100 text-primary-700 ring-1 ring-inset ring-primary-700/10 mb-6" data-aos="fade-down">
+          <motion.span 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center rounded-full px-4 py-1 text-sm font-medium bg-primary-100 text-primary-700 ring-1 ring-inset ring-primary-700/10 mb-6"
+          >
             The Future of Healthcare
-          </span>
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl" data-aos="fade-up">
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+          >
             Today's Healthcare Is Reactive —<br />
             <span className="text-primary-600">Proventa Is Proactive</span>
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600" data-aos="fade-up" data-aos-delay="100">
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-6 text-lg leading-8 text-gray-600"
+          >
             Most healthcare systems react after problems occur. Proventa uses your daily data to forecast risks before symptoms arise, empowering you to live healthier, longer, and stronger.
-          </p>
+          </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-16 relative">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid md:grid-cols-2 gap-8 lg:gap-16 relative"
+        >
           {/* Connecting line between cards */}
           <div className="absolute top-1/2 left-1/2 w-16 h-16 -translate-x-1/2 -translate-y-1/2 hidden md:block">
             <div className="w-full h-0.5 bg-gradient-to-r from-red-200 via-gray-200 to-primary-200"></div>
@@ -40,9 +83,9 @@ export default function ComparisonSection() {
           </div>
 
           {/* Reactive Healthcare */}
-          <div 
+          <motion.div 
+            variants={itemVariants}
             className="group p-8 rounded-2xl bg-white shadow-lg border border-gray-100 transform hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
-            data-aos="fade-right"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-red-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative">
@@ -70,12 +113,12 @@ export default function ComparisonSection() {
                 ))}
               </ul>
             </div>
-          </div>
+          </motion.div>
 
           {/* Proactive Prevention */}
-          <div 
+          <motion.div 
+            variants={itemVariants}
             className="group p-8 rounded-2xl bg-gradient-to-br from-primary-50 to-white shadow-lg border border-primary-100 transform hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
-            data-aos="fade-left"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary-100 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative">
@@ -103,42 +146,60 @@ export default function ComparisonSection() {
                 ))}
               </ul>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Statistics Section */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="200">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-primary-100 rounded-xl mb-4">
-              <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
+          {[
+            {
+              icon: <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <p className="text-2xl font-bold text-gray-900">24/7</p>
-            <p className="mt-2 text-sm text-gray-600">Continuous Monitoring</p>
-          </div>
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-primary-100 rounded-xl mb-4">
-              <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              </svg>,
+              stat: "24/7",
+              label: "Continuous Monitoring"
+            },
+            {
+              icon: <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
-            <p className="text-2xl font-bold text-gray-900">Protected</p>
-            <p className="mt-2 text-sm text-gray-600">Bank-Level Security</p>
-          </div>
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center p-3 bg-primary-100 rounded-xl mb-4">
-              <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              </svg>,
+              stat: "Protected",
+              label: "Bank-Level Security"
+            },
+            {
+              icon: <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <p className="text-2xl font-bold text-gray-900">Instant</p>
-            <p className="mt-2 text-sm text-gray-600">Live Health Analytics</p>
-          </div>
-        </div>
+              </svg>,
+              stat: "Instant",
+              label: "Live Health Analytics"
+            }
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="text-center"
+            >
+              <div className="inline-flex items-center justify-center p-3 bg-primary-100 rounded-xl mb-4">
+                {item.icon}
+              </div>
+              <p className="text-2xl font-bold text-gray-900">{item.stat}</p>
+              <p className="mt-2 text-sm text-gray-600">{item.label}</p>
+            </motion.div>
+          ))}
+        </motion.div>
 
         {/* Call to Action */}
-        <div className="mt-16 text-center" data-aos="fade-up">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mt-16 text-center"
+        >
           <a
             href="#waitlist"
             className="group inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200"
@@ -153,7 +214,7 @@ export default function ComparisonSection() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 to-white pt-8">
+    <section className="relative overflow-hidden bg-gradient-to-b from-primary-50 to-white">
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

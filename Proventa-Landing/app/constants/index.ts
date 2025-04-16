@@ -1,24 +1,40 @@
 import { Feature, AboutCard } from '../types';
-import { ChartIcon, SecurityIcon, BrainIcon, ClockIcon, DocumentIcon } from '../components/Icons';
+import { ChartIcon, SecurityIcon, BrainIcon } from '../components/Icons';
 import { DataFeature, AIFeature, RecommendFeature } from '../components/StepFeatures';
 import { ChartBarIcon, SparklesIcon, ArrowTrendingUpIcon } from '@heroicons/react/24/outline';
+import { EarlyDetectionIcon, MonitoringIcon, AnalysisIcon, PredictiveIcon, InsightsIcon, LearningIcon } from '../components/FeatureIcons';
 import React from 'react';
 
 export const features: Feature[] = [
   {
-    title: 'Predictive Analytics',
-    description: 'Advanced AI algorithms analyze your health data to predict potential issues before they become serious.',
-    icon: ChartIcon,
+    title: 'Early Detection',
+    description: 'Spot potential health risks before they develop into serious concerns',
+    icon: EarlyDetectionIcon
   },
   {
     title: '24/7 Monitoring',
-    description: 'Round-the-clock health tracking with instant alerts for any concerning changes.',
-    icon: ClockIcon,
+    description: 'Continuous health tracking with real-time notifications and instant alerts',
+    icon: MonitoringIcon
+  },
+  {
+    title: 'AI-Powered Analysis',
+    description: 'Advanced algorithms process your health data for personalized insights',
+    icon: AnalysisIcon
+  },
+  {
+    title: 'Predictive Analytics',
+    description: 'Forecast potential health changes based on your historical data and patterns',
+    icon: PredictiveIcon
   },
   {
     title: 'Personalized Insights',
-    description: 'Tailored health recommendations that adapt to your unique lifestyle and wellness goals.',
-    icon: BrainIcon,
+    description: 'Tailored recommendations that adapt to your unique lifestyle and wellness goals',
+    icon: InsightsIcon
+  },
+  {
+    title: 'Continuous Learning',
+    description: 'Our AI system evolves with you, improving predictions and recommendations over time',
+    icon: LearningIcon
   }
 ];
 

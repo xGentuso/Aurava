@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect, Suspense } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { Suspense } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -26,16 +24,9 @@ export default function Home() {
     threshold: 0.1,
   });
 
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-    });
-  }, []);
-
   return (
     <ErrorBoundary>
-      <main className="flex min-h-screen flex-col pt-16">
+      <main className="flex min-h-screen flex-col">
         <Suspense fallback={<LoadingSpinner />}>
           <Hero />
         </Suspense>
