@@ -16,14 +16,6 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function POST(req: Request) {
-  // Add CORS headers to the response
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': 'https://www.proventa.health',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
-
   try {
     // Connect to database
     await connectDB();
@@ -35,7 +27,7 @@ export async function POST(req: Request) {
     } catch (e) {
       return NextResponse.json(
         { error: 'Invalid request body' },
-        { status: 400, headers: corsHeaders }
+        { status: 400 }
       );
     }
 
@@ -45,7 +37,7 @@ export async function POST(req: Request) {
     if (!email) {
       return NextResponse.json(
         { error: 'Email is required' },
-        { status: 400, headers: corsHeaders }
+        { status: 400 }
       );
     }
 
@@ -54,16 +46,16 @@ export async function POST(req: Request) {
     if (existingUser) {
       return NextResponse.json(
         { error: 'Email already registered for the waitlist' },
-        { status: 400, headers: corsHeaders }
+        { status: 400 }
       );
     }
 
     // Create new waitlist entry
     const waitlistEntry = await Waitlist.create({
       email,
-      name: name || email.split('@')[0], // Fallback to email username if name not provided
-      interests: interests || ['Health Tracking'], // Default interest
-      referralSource: referralSource || 'Other', // Default source
+      name: name || email.split('@')[0],
+      interests: interests || ['Health Tracking'],
+      referralSource: referralSource || 'Other',
       status: 'Pending',
       notificationPreferences: {
         email: true,
@@ -77,7 +69,7 @@ export async function POST(req: Request) {
         message: 'Successfully joined the waitlist',
         data: waitlistEntry
       },
-      { status: 201, headers: corsHeaders }
+      { status: 201 }
     );
   } catch (error) {
     console.error('Waitlist submission error:', error);
@@ -90,7 +82,7 @@ export async function POST(req: Request) {
           message: 'Validation failed',
           errors: Object.values(error.errors).map(err => err.message)
         },
-        { status: 400, headers: corsHeaders }
+        { status: 400 }
       );
     }
 
@@ -101,19 +93,12 @@ export async function POST(req: Request) {
         message: 'Failed to join waitlist',
         error: error instanceof Error ? error.message : 'Unknown error'
       },
-      { status: 500, headers: corsHeaders }
+      { status: 500 }
     );
   }
 }
 
 export async function GET() {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': 'https://www.proventa.health',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
-
   try {
     await connectDB();
     
@@ -125,7 +110,7 @@ export async function GET() {
         status: 'success',
         data: entries
       },
-      { status: 200, headers: corsHeaders }
+      { status: 200 }
     );
   } catch (error) {
     console.error('Error fetching waitlist entries:', error);
@@ -135,7 +120,7 @@ export async function GET() {
         message: 'Failed to fetch waitlist entries',
         error: error instanceof Error ? error.message : 'Unknown error'
       },
-      { status: 500, headers: corsHeaders }
+      { status: 500 }
     );
   }
 } 

@@ -40,30 +40,28 @@ export default function WaitlistForm() {
     setFormState({ state: 'loading', message: '' });
 
     try {
-      // In production, use the actual domain
-      const isProduction = process.env.NODE_ENV === 'production';
-      const baseUrl = isProduction ? 'https://www.proventa.health' : '';
+      // Always use the current origin for the API call
+      const apiUrl = `${window.location.origin}/api/waitlist`;
       
-      const response = await fetch(`${baseUrl}/api/waitlist`, {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Include credentials for CORS
         body: JSON.stringify({ 
           email,
-          name: email.split('@')[0], // Use part before @ as temporary name
-          interests: ['Health Tracking'], // Default interest
-          referralSource: 'Other' // Using a valid enum value from the schema
+          name: email.split('@')[0],
+          interests: ['Health Tracking'],
+          referralSource: 'Other'
         }),
       });
 
+      const data = await response.json();
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to join waitlist');
+        throw new Error(data.error || 'Failed to join waitlist');
       }
 
-      const data = await response.json();
       setFormState({
         state: 'success',
         message: '🎉 Welcome to the Proventa community! You\'ll receive:\n\n' +
