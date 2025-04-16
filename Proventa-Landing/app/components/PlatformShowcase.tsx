@@ -52,20 +52,22 @@ export default function PlatformShowcase() {
   // Preload images
   useEffect(() => {
     const preloadImages = async () => {
-      const imagePromises = screenshots.map((screenshot) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = screenshot.src;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-      });
-      
       try {
-        await Promise.all(imagePromises);
+        await Promise.all(
+          screenshots.map((screenshot) => {
+            return new Promise((resolve, reject) => {
+              const img = document.createElement('img');
+              img.src = screenshot.src;
+              img.onload = resolve;
+              img.onerror = reject;
+            });
+          })
+        );
         setIsLoading(false);
       } catch (error) {
         console.error('Error preloading images:', error);
+        // Still set loading to false to not block the UI
+        setIsLoading(false);
       }
     };
 
@@ -145,8 +147,6 @@ export default function PlatformShowcase() {
                   className="object-contain rounded-lg shadow-2xl"
                   priority={currentIndex <= 1}
                   loading={currentIndex <= 1 ? "eager" : "lazy"}
-                  placeholder="blur"
-                  blurDataURL={screenshots[currentIndex].blurDataURL}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                   quality={90}
                 />
