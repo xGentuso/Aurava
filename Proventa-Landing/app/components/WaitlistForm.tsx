@@ -40,15 +40,14 @@ export default function WaitlistForm() {
     setFormState({ state: 'loading', message: '' });
 
     try {
-      // Log the request URL and data
-      const apiUrl = '/api/waitlist';
-      console.log('Submitting to:', apiUrl);
-      
-      const response = await fetch(apiUrl, {
+      // Create an AbortController for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+      const response = await fetch('/api/waitlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
         body: JSON.stringify({ 
           email,
@@ -56,29 +55,25 @@ export default function WaitlistForm() {
           interests: ['Health Tracking'],
           referralSource: 'Other'
         }),
+        signal: controller.signal
       });
 
-      // Log the response status and headers
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-      // Try to get the response text first
-      const responseText = await response.text();
-      console.log('Response text:', responseText);
-
-      // Try to parse the response as JSON
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (e) {
-        console.error('Failed to parse response as JSON:', e);
-        throw new Error('Server returned invalid JSON response');
-      }
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to join waitlist');
+        // Try to get error message from response
+        let errorMessage = 'Failed to join waitlist';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorData.message || errorMessage;
+        } catch (e) {
+          console.error('Error parsing error response:', e);
+        }
+        throw new Error(errorMessage);
       }
 
+      const data = await response.json();
+      
       setFormState({
         state: 'success',
         message: '🎉 Welcome to the Proventa community! You\'ll receive:\n\n' +
@@ -90,11 +85,19 @@ export default function WaitlistForm() {
       setEmail('');
     } catch (error) {
       console.error('Form submission error:', error);
+      let errorMessage = 'Something went wrong. Please try again later.';
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMessage = 'Request timed out. Please try again.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
       setFormState({
         state: 'error',
-        message: error instanceof Error 
-          ? error.message 
-          : 'Something went wrong. Please try again later.',
+        message: errorMessage
       });
     }
   };

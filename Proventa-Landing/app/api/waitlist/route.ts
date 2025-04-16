@@ -3,6 +3,9 @@ import connectDB from '@/lib/mongodb';
 import Waitlist from '@/models/Waitlist';
 import mongoose from 'mongoose';
 
+// Set timeout for MongoDB operations
+const MONGODB_TIMEOUT = 5000; // 5 seconds
+
 // Handle CORS preflight requests
 export async function OPTIONS(request: Request) {
   return NextResponse.json({}, {
@@ -16,29 +19,30 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function POST(req: Request) {
-  console.log('Received POST request to /api/waitlist');
-  
   try {
-    // Log MongoDB URI (with password removed)
-    const mongoUri = process.env.MONGODB_URI || '';
-    console.log('MongoDB URI:', mongoUri.replace(/:([^@]+)@/, ':***@'));
-    
-    // Connect to database
-    console.log('Attempting to connect to MongoDB...');
-    await connectDB();
-    console.log('Successfully connected to MongoDB');
+    // Connect to database with timeout
+    const connectPromise = connectDB();
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Database connection timeout')), MONGODB_TIMEOUT);
+    });
+
+    try {
+      await Promise.race([connectPromise, timeoutPromise]);
+    } catch (error) {
+      console.error('Database connection error:', error);
+      return NextResponse.json(
+        { error: 'Unable to connect to database. Please try again.' },
+        { status: 503 }
+      );
+    }
 
     // Parse request body
     let body;
     try {
-      const text = await req.text();
-      console.log('Request body text:', text);
-      body = JSON.parse(text);
-      console.log('Parsed request body:', body);
+      body = await req.json();
     } catch (e) {
-      console.error('Failed to parse request body:', e);
       return NextResponse.json(
-        { error: 'Invalid request body' },
+        { error: 'Invalid request format' },
         { status: 400 }
       );
     }
@@ -47,69 +51,87 @@ export async function POST(req: Request) {
 
     // Validate required fields
     if (!email) {
-      console.log('Email field missing');
       return NextResponse.json(
         { error: 'Email is required' },
         { status: 400 }
       );
     }
 
-    // Check if email already exists
-    console.log('Checking for existing email:', email);
-    const existingUser = await Waitlist.findOne({ email });
-    if (existingUser) {
-      console.log('Email already exists:', email);
+    // Check if email already exists with timeout
+    try {
+      const findPromise = Waitlist.findOne({ email });
+      const existingUser = await Promise.race([
+        findPromise,
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Database query timeout')), MONGODB_TIMEOUT);
+        })
+      ]);
+
+      if (existingUser) {
+        return NextResponse.json(
+          { error: 'Email already registered for the waitlist' },
+          { status: 400 }
+        );
+      }
+    } catch (error) {
+      console.error('Error checking existing user:', error);
       return NextResponse.json(
-        { error: 'Email already registered for the waitlist' },
-        { status: 400 }
+        { error: 'Error checking registration. Please try again.' },
+        { status: 503 }
       );
     }
 
-    // Create new waitlist entry
-    console.log('Creating new waitlist entry for:', email);
-    const waitlistEntry = await Waitlist.create({
-      email,
-      name: name || email.split('@')[0],
-      interests: interests || ['Health Tracking'],
-      referralSource: referralSource || 'Other',
-      status: 'Pending',
-      notificationPreferences: {
-        email: true,
-        updates: true
-      }
-    });
-    console.log('Successfully created waitlist entry:', waitlistEntry);
+    // Create new waitlist entry with timeout
+    try {
+      const createPromise = Waitlist.create({
+        email,
+        name: name || email.split('@')[0],
+        interests: interests || ['Health Tracking'],
+        referralSource: referralSource || 'Other',
+        status: 'Pending',
+        notificationPreferences: {
+          email: true,
+          updates: true
+        }
+      });
 
-    return NextResponse.json(
-      { 
-        status: 'success',
-        message: 'Successfully joined the waitlist',
-        data: waitlistEntry
-      },
-      { status: 201 }
-    );
+      const waitlistEntry = await Promise.race([
+        createPromise,
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Database operation timeout')), MONGODB_TIMEOUT);
+        })
+      ]);
+
+      return NextResponse.json(
+        { 
+          status: 'success',
+          message: 'Successfully joined the waitlist',
+          data: waitlistEntry
+        },
+        { status: 201 }
+      );
+    } catch (error) {
+      console.error('Error creating waitlist entry:', error);
+      return NextResponse.json(
+        { error: 'Failed to create waitlist entry. Please try again.' },
+        { status: 503 }
+      );
+    }
   } catch (error) {
     console.error('Waitlist submission error:', error);
     
-    // Handle mongoose validation errors
     if (error instanceof mongoose.Error.ValidationError) {
       return NextResponse.json(
         { 
-          status: 'error',
-          message: 'Validation failed',
-          errors: Object.values(error.errors).map(err => err.message)
+          error: 'Invalid data provided',
+          details: Object.values(error.errors).map(err => err.message)
         },
         { status: 400 }
       );
     }
 
-    // Handle other errors
     return NextResponse.json(
-      { 
-        status: 'error',
-        message: 'Failed to join waitlist',
-        error: error instanceof Error ? error.message : 'Unknown error'
-      },
+      { error: 'An unexpected error occurred. Please try again later.' },
       { status: 500 }
     );
   }
