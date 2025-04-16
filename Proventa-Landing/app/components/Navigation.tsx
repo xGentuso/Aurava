@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const navItems = [
   { name: 'Features', href: '#features' },
@@ -65,16 +66,15 @@ export default function Navigation() {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex-shrink-0">
-            <a href="/" className="flex items-center">
-              <Image 
-                src="/ProventaLogo.png" 
-                alt="Proventa Logo" 
-                width={160} 
-                height={64} 
-                className="h-12 w-auto"
-                priority
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/ProventaLogo.png"
+                alt="Proventa Logo"
+                width={150}
+                height={40}
+                className="object-contain"
               />
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}

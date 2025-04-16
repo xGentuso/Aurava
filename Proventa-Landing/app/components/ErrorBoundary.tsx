@@ -1,25 +1,23 @@
 'use client';
 
 import { Component, ErrorInfo, ReactNode } from 'react';
+import Link from 'next/link';
 
 interface Props {
-  children: ReactNode;
-  fallback?: ReactNode;
+  children?: ReactNode;
 }
 
 interface State {
   hasError: boolean;
-  error: Error | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false,
-    error: null,
+    hasError: false
   };
 
-  public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
+  public static getDerivedStateFromError(_: Error): State {
+    return { hasError: true };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -28,36 +26,28 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      if (this.props.fallback) {
-        return this.props.fallback;
-      }
-
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full space-y-8">
-            <div>
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Something went wrong
-              </h2>
-              <p className="mt-2 text-center text-sm text-gray-600">
-                We apologize for the inconvenience. Please try refreshing the page.
-              </p>
-            </div>
-            <div className="mt-8 space-y-6">
+        <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center px-4">
+          <div className="max-w-md w-full space-y-8 text-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Oops! Something went wrong
+            </h1>
+            <p className="text-lg text-gray-600 mb-8">
+              We&apos;re sorry, but something went wrong. Please try refreshing the page or contact support if the problem persists.
+            </p>
+            <div className="space-x-4">
               <button
-                onClick={() => window.location.reload()}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                onClick={() => this.setState({ hasError: false })}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
               >
-                Refresh Page
+                Try again
               </button>
-              <div className="text-sm text-center">
-                <a
-                  href="/"
-                  className="font-medium text-primary-600 hover:text-primary-500"
-                >
-                  Return to Homepage
-                </a>
-              </div>
+              <Link
+                href="/"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+              >
+                Go back home
+              </Link>
             </div>
           </div>
         </div>
@@ -66,4 +56,6 @@ export class ErrorBoundary extends Component<Props, State> {
 
     return this.props.children;
   }
-} 
+}
+
+export default ErrorBoundary; 
