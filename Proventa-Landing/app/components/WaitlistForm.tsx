@@ -49,25 +49,32 @@ export default function WaitlistForm() {
           'Accept': 'application/json'
         },
         body: JSON.stringify({ 
-          email,
+          _replyto: email,
+          email: email,
           subject: 'New Proventa Waitlist Signup',
           message: `New signup from ${email}`
         })
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to join waitlist. Please try again.');
+        throw new Error(data.error || 'Failed to join waitlist. Please try again.');
       }
 
-      setFormState({
-        state: 'success',
-        message: '🎉 Welcome to the Proventa community! You\'ll receive:\n\n' +
-          '• A confirmation email shortly\n' +
-          '• Early access invitation when we launch\n' +
-          '• Exclusive updates on our development progress\n' +
-          '• Opportunity to shape our product features'
-      });
-      setEmail('');
+      if (data.ok) {
+        setFormState({
+          state: 'success',
+          message: '🎉 Welcome to the Proventa community! You\'ll receive:\n\n' +
+            '• A confirmation email shortly\n' +
+            '• Early access invitation when we launch\n' +
+            '• Exclusive updates on our development progress\n' +
+            '• Opportunity to shape our product features'
+        });
+        setEmail('');
+      } else {
+        throw new Error('Failed to process your request. Please try again.');
+      }
     } catch (error) {
       console.error('Form submission error:', error);
       setFormState({
