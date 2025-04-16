@@ -16,15 +16,27 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function POST(req: Request) {
+  console.log('Received POST request to /api/waitlist');
+  
   try {
+    // Log MongoDB URI (with password removed)
+    const mongoUri = process.env.MONGODB_URI || '';
+    console.log('MongoDB URI:', mongoUri.replace(/:([^@]+)@/, ':***@'));
+    
     // Connect to database
+    console.log('Attempting to connect to MongoDB...');
     await connectDB();
+    console.log('Successfully connected to MongoDB');
 
     // Parse request body
     let body;
     try {
-      body = await req.json();
+      const text = await req.text();
+      console.log('Request body text:', text);
+      body = JSON.parse(text);
+      console.log('Parsed request body:', body);
     } catch (e) {
+      console.error('Failed to parse request body:', e);
       return NextResponse.json(
         { error: 'Invalid request body' },
         { status: 400 }
@@ -35,6 +47,7 @@ export async function POST(req: Request) {
 
     // Validate required fields
     if (!email) {
+      console.log('Email field missing');
       return NextResponse.json(
         { error: 'Email is required' },
         { status: 400 }
@@ -42,8 +55,10 @@ export async function POST(req: Request) {
     }
 
     // Check if email already exists
+    console.log('Checking for existing email:', email);
     const existingUser = await Waitlist.findOne({ email });
     if (existingUser) {
+      console.log('Email already exists:', email);
       return NextResponse.json(
         { error: 'Email already registered for the waitlist' },
         { status: 400 }
@@ -51,6 +66,7 @@ export async function POST(req: Request) {
     }
 
     // Create new waitlist entry
+    console.log('Creating new waitlist entry for:', email);
     const waitlistEntry = await Waitlist.create({
       email,
       name: name || email.split('@')[0],
@@ -62,6 +78,7 @@ export async function POST(req: Request) {
         updates: true
       }
     });
+    console.log('Successfully created waitlist entry:', waitlistEntry);
 
     return NextResponse.json(
       { 

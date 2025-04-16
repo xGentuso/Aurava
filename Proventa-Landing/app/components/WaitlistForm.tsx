@@ -40,13 +40,15 @@ export default function WaitlistForm() {
     setFormState({ state: 'loading', message: '' });
 
     try {
-      // Always use the current origin for the API call
-      const apiUrl = `${window.location.origin}/api/waitlist`;
+      // Log the request URL and data
+      const apiUrl = '/api/waitlist';
+      console.log('Submitting to:', apiUrl);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({ 
           email,
@@ -56,8 +58,23 @@ export default function WaitlistForm() {
         }),
       });
 
-      const data = await response.json();
-      
+      // Log the response status and headers
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+      // Try to get the response text first
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+
+      // Try to parse the response as JSON
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error('Failed to parse response as JSON:', e);
+        throw new Error('Server returned invalid JSON response');
+      }
+
       if (!response.ok) {
         throw new Error(data.error || 'Failed to join waitlist');
       }
