@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Waitlist from '@/models/Waitlist';
+import mongoose from 'mongoose';
 
 export async function POST(req: Request) {
   try {
@@ -39,21 +40,19 @@ export async function POST(req: Request) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error('Waitlist submission error:', error);
     
-    // Handle validation errors
-    if (error instanceof Error) {
-      if (error.name === 'ValidationError') {
-        return NextResponse.json(
-          { 
-            status: 'error',
-            message: 'Validation failed',
-            errors: Object.values(error.errors || {}).map(err => err.message)
-          },
-          { status: 400 }
-        );
-      }
+    // Handle mongoose validation errors
+    if (error instanceof mongoose.Error.ValidationError) {
+      return NextResponse.json(
+        { 
+          status: 'error',
+          message: 'Validation failed',
+          errors: Object.values(error.errors).map(err => err.message)
+        },
+        { status: 400 }
+      );
     }
 
     // Handle other errors
@@ -61,7 +60,7 @@ export async function POST(req: Request) {
       { 
         status: 'error',
         message: 'Failed to join waitlist',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
     );
@@ -82,13 +81,13 @@ export async function GET() {
       },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching waitlist entries:', error);
     return NextResponse.json(
       { 
         status: 'error',
         message: 'Failed to fetch waitlist entries',
-        error: error.message 
+        error: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
     );
