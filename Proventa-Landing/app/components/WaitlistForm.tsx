@@ -5,8 +5,6 @@ interface FormState {
   message: string;
 }
 
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpzvgkrw';
-
 export default function WaitlistForm() {
   const [formState, setFormState] = useState<FormState>({
     state: 'idle',
@@ -42,7 +40,12 @@ export default function WaitlistForm() {
     setFormState({ state: 'loading', message: '' });
 
     try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
+      const formId = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID;
+      if (!formId) {
+        throw new Error('Formspree form ID is not configured');
+      }
+
+      const response = await fetch(`https://formspree.io/f/${formId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
