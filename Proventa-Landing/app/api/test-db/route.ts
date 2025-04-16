@@ -3,10 +3,13 @@ import connectDB from '@/lib/mongodb';
 
 export async function GET() {
   try {
-    // Attempt to connect to MongoDB
     const mongoose = await connectDB();
     
-    // If we get here, connection was successful
+    // Only try to access database properties after we're sure we're connected
+    if (!mongoose?.connection?.db) {
+      throw new Error('Database connection not established');
+    }
+
     return NextResponse.json(
       { 
         status: 'success',
