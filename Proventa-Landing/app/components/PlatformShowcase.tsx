@@ -102,18 +102,18 @@ export default function PlatformShowcase() {
   };
 
   return (
-    <section className="relative py-16 bg-gray-50 overflow-hidden">
+    <section className="relative py-8 sm:py-16 bg-gray-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">
+        <div className="text-center mb-6 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-2 sm:mb-4">
             Experience the Future of Health Monitoring
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
             Explore our intuitive platform designed to help you predict, prevent, and prosper in your health journey.
           </p>
         </div>
 
-        <div className="relative h-[600px] w-full">
+        <div className="relative h-[400px] sm:h-[500px] md:h-[600px] w-full">
           <AnimatePresence initial={false} custom={direction}>
             <motion.div
               key={currentIndex}
@@ -139,12 +139,12 @@ export default function PlatformShowcase() {
               }}
               className="absolute w-full h-full"
             >
-              <div className="relative h-full w-full">
+              <div className="relative h-full w-full px-0 sm:px-4">
                 <Image
                   src={screenshots[currentIndex].src}
                   alt={screenshots[currentIndex].alt}
                   fill
-                  className="object-contain rounded-lg shadow-2xl"
+                  className="object-contain rounded-lg shadow-2xl !p-0"
                   priority={currentIndex <= 1}
                   loading={currentIndex <= 1 ? "eager" : "lazy"}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
