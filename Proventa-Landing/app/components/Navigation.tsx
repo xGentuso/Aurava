@@ -12,6 +12,7 @@ const navItems = [
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,6 +51,7 @@ export default function Navigation() {
         behavior: 'smooth',
       });
     }
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -73,6 +75,8 @@ export default function Navigation() {
               />
             </a>
           </div>
+
+          {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-8">
             {navItems.map((item) => (
               <a
@@ -86,15 +90,53 @@ export default function Navigation() {
                 {item.name}
               </a>
             ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-primary-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+              aria-expanded="false"
+            >
+              <span className="sr-only">Open main menu</span>
+              {!isMobileMenuOpen ? (
+                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+              ) : (
+                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-lg py-2 px-4">
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={`block py-2 text-base text-gray-600 hover:text-primary-600 transition-colors duration-200 ${
+                  activeSection === item.href.substring(1) ? 'text-primary-600 font-semibold' : ''
+                }`}
+              >
+                {item.name}
+              </a>
+            ))}
             <a
               href="#waitlist"
               onClick={(e) => handleNavClick(e, '#waitlist')}
-              className="inline-flex items-center px-4 py-2 text-sm font-semibold rounded-full text-white bg-primary-600 hover:bg-primary-500 transition-all duration-200"
+              className="block py-2 mt-2 text-base font-semibold text-primary-600 hover:text-primary-500 transition-colors duration-200"
             >
               Get Early Access
             </a>
           </div>
-        </div>
+        )}
       </nav>
     </header>
   );
