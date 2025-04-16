@@ -39,30 +39,17 @@ export default function WaitlistForm() {
 
     setFormState({ state: 'loading', message: '' });
 
-    // Validate Formspree ID
-    if (!process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID) {
-      setFormState({
-        state: 'error',
-        message: 'Form configuration error. Please contact the administrator.',
-      });
-      return;
-    }
-
     try {
-      const response = await fetch(`https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID}`, {
+      const response = await fetch('/api/waitlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
         },
         body: JSON.stringify({ 
           email,
-          subject: 'New Proventa Waitlist Signup',
-          message: `New waitlist signup from ${email}\n\n` +
-            `Timestamp: ${new Date().toISOString()}\n` +
-            `Source: Proventa Landing Page\n` +
-            'Action needed: Send welcome email',
-          _gotcha: '', // spam prevention
+          name: email.split('@')[0], // Use part before @ as temporary name
+          interests: ['Health Tracking'], // Default interest
+          referralSource: 'Other' // Using a valid enum value from the schema
         }),
       });
 
@@ -79,7 +66,7 @@ export default function WaitlistForm() {
         });
         setEmail('');
       } else {
-        throw new Error(data.error || 'Form submission failed');
+        throw new Error(data.error || 'Failed to join waitlist');
       }
     } catch (error) {
       console.error('Form submission error:', error);
