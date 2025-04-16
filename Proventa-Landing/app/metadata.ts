@@ -7,16 +7,31 @@ export const metadata: Metadata = {
   keywords: "health platform, preventative healthcare, wellness tracking, health prediction, personalized health",
   icons: {
     icon: [
-      { url: '/favicon.ico' },
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
       { url: '/favicon.svg', type: 'image/svg+xml' }
     ],
+    shortcut: [
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
     apple: [
       { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
+    ],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/favicon.svg',
+        color: '#0d9488'
+      }
     ]
   },
   manifest: '/site.webmanifest',
   themeColor: '#0d9488',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Proventa'
+  },
   openGraph: {
     title: "Proventa | Predict. Prevent. Prosper.",
     description: "Proventa is a radically personalized health platform that integrates your wearable, wellness, and environmental data to predict vulnerabilities before they appear.",
