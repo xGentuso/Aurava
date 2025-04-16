@@ -23,12 +23,13 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
         
-        {/* Favicon Configuration */}
-        <link rel="shortcut icon" href="/favicon.ico" />
+        {/* Favicon Configuration - High Priority */}
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href="/site.webmanifest" crossOrigin="use-credentials" />
         <meta name="theme-color" content="#0d9488" />
         
         {/* Security Headers */}
