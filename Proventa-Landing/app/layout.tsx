@@ -85,7 +85,7 @@ export default function RootLayout({
         </div>
         <Navigation />
         {children}
-        <Analytics />
+        <Analytics debug={true} mode="production" />
 
         <footer className="bg-white border-t border-gray-100">
           <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
