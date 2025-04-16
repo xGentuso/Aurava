@@ -5,8 +5,8 @@ export async function GET() {
   try {
     const mongoose = await connectDB();
     
-    // Only try to access database properties after we're sure we're connected
-    if (!mongoose?.connection?.db) {
+    // Check if we have a valid database connection
+    if (!mongoose.connection?.db) {
       throw new Error('Database connection not established');
     }
 
