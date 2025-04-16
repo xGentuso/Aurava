@@ -61,7 +61,7 @@ export default function Navigation() {
       className={`fixed w-full bg-white/90 backdrop-blur-md z-40 transition-all duration-200 ${
         isScrolled ? 'shadow-sm' : ''
       }`}
-      style={{ top: '40px' }}
+      style={{ top: '32px' }}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">

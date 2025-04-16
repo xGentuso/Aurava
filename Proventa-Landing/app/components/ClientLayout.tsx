@@ -15,7 +15,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     <>
       <div className="fixed top-0 left-0 right-0 bg-primary-600 text-white z-50">
         {/* Top Banner */}
-        <div className="bg-primary-600 px-4 py-2 text-center text-sm">
+        <div className="bg-primary-600 px-4 py-1.5 text-center text-sm">
           <div className="inline-flex items-center justify-center flex-wrap gap-2">
             <span className="bg-primary-700/50 text-white px-2 py-0.5 rounded-full text-xs font-medium ring-1 ring-primary-700/20">
               Q3 2026
@@ -32,7 +32,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
       </div>
 
       {/* Add padding to account for the fixed banner and navigation */}
-      <div className="pt-24">
+      <div className="pt-14">
         <Navigation />
         <AOSWrapper>
           {children}
