@@ -5,6 +5,8 @@ interface FormState {
   message: string;
 }
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpzvgkrw';
+
 export default function WaitlistForm() {
   const [formState, setFormState] = useState<FormState>({
     state: 'idle',
@@ -40,32 +42,23 @@ export default function WaitlistForm() {
     setFormState({ state: 'loading', message: '' });
 
     try {
-      // Create an AbortController for timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-
-      const response = await fetch('/api/waitlist', {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({ 
           email,
-          name: email.split('@')[0],
-          interests: ['Health Tracking'],
-          referralSource: 'Other'
-        }),
-        signal: controller.signal
+          subject: 'New Proventa Waitlist Signup',
+          message: `New signup from ${email}`
+        })
       });
 
-      clearTimeout(timeoutId);
-
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to join waitlist');
+        throw new Error('Failed to join waitlist. Please try again.');
       }
-      
+
       setFormState({
         state: 'success',
         message: '🎉 Welcome to the Proventa community! You\'ll receive:\n\n' +
@@ -77,19 +70,9 @@ export default function WaitlistForm() {
       setEmail('');
     } catch (error) {
       console.error('Form submission error:', error);
-      let errorMessage = 'Something went wrong. Please try again later.';
-      
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          errorMessage = 'Request timed out. Please try again.';
-        } else {
-          errorMessage = error.message;
-        }
-      }
-
       setFormState({
         state: 'error',
-        message: errorMessage
+        message: error instanceof Error ? error.message : 'Something went wrong. Please try again later.'
       });
     }
   };
