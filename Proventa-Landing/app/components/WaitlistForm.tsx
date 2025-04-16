@@ -42,7 +42,7 @@ export default function WaitlistForm() {
     try {
       // Create an AbortController for timeout
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
       const response = await fetch('/api/waitlist', {
         method: 'POST',
@@ -60,19 +60,11 @@ export default function WaitlistForm() {
 
       clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        // Try to get error message from response
-        let errorMessage = 'Failed to join waitlist';
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.error || errorData.message || errorMessage;
-        } catch (e) {
-          console.error('Error parsing error response:', e);
-        }
-        throw new Error(errorMessage);
-      }
-
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to join waitlist');
+      }
       
       setFormState({
         state: 'success',
