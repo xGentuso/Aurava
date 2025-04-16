@@ -74,14 +74,35 @@ export default function RootLayout({
         <meta httpEquiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()" />
       </head>
       <body className="bg-white">
-        <div className="fixed top-0 left-0 right-0 bg-primary-600/90 text-white py-1 px-4 text-center z-50 text-sm">
-          <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-primary-700/50 text-white ring-1 ring-inset ring-primary-700/20 mr-2">
-            Q3 2026
-          </span>
-          Be the first to experience the future of preventative healthcare
-          <a href="#waitlist" className="ml-2 font-semibold hover:text-primary-100">
-            Join Now →
-          </a>
+        <div className="fixed top-0 left-0 right-0 bg-primary-600/90 text-white py-2 md:py-1 px-4 z-50">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center md:justify-between text-center md:text-left gap-2 md:gap-4">
+            <div className="flex items-center flex-wrap justify-center md:justify-start gap-2">
+              <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-primary-700/50 text-white ring-1 ring-inset ring-primary-700/20">
+                Q3 2026
+              </span>
+              <span className="text-sm">
+                Be the first to experience the future of preventative healthcare
+              </span>
+            </div>
+            <a 
+              href="#waitlist" 
+              className="text-sm font-semibold hover:text-primary-100 transition-colors duration-200 whitespace-nowrap flex items-center"
+            >
+              Join Now
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="h-4 w-4 ml-1" 
+                viewBox="0 0 20 20" 
+                fill="currentColor"
+              >
+                <path 
+                  fillRule="evenodd" 
+                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" 
+                  clipRule="evenodd" 
+                />
+              </svg>
+            </a>
+          </div>
         </div>
         <Navigation />
         {children}
