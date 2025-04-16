@@ -4,7 +4,8 @@ if (!process.env.MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-const MONGODB_URI = process.env.MONGODB_URI;
+// Remove any trailing whitespace from the URI
+const MONGODB_URI = process.env.MONGODB_URI.trim();
 
 interface MongooseCache {
   conn: typeof mongoose | null;
@@ -29,20 +30,32 @@ async function connectDB(): Promise<typeof mongoose> {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      dbName: 'waitlist'
+      dbName: 'waitlist',
+      connectTimeoutMS: 5000, // 5 second timeout
+      socketTimeoutMS: 5000,
+      maxPoolSize: 10,
+      retryWrites: true,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts);
+    try {
+      cached.promise = mongoose.connect(MONGODB_URI, opts);
+      console.log('Attempting to connect to MongoDB...');
+    } catch (error) {
+      console.error('Error initializing MongoDB connection:', error);
+      cached.promise = null;
+      throw error;
+    }
   }
 
   try {
     cached.conn = await cached.promise;
-  } catch (e) {
+    console.log('Successfully connected to MongoDB');
+    return cached.conn;
+  } catch (error) {
+    console.error('Error establishing MongoDB connection:', error);
     cached.promise = null;
-    throw e;
+    throw error;
   }
-
-  return cached.conn;
 }
 
 export default connectDB; 
