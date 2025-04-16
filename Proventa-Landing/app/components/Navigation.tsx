@@ -69,11 +69,12 @@ export default function Navigation() {
             <Link href="/" className="flex items-center">
               <Image
                 src="/ProventaLogo.png"
-                alt="Proventa Logo"
-                width={150}
-                height={32}
-                className="object-contain w-[150px] h-[32px]"
+                alt="Proventa - Predictive Health Platform"
+                width={180}
+                height={38}
+                className="object-contain w-[180px] h-[38px]"
                 priority
+                quality={100}
               />
             </Link>
           </div>
