@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from '@vercel/analytics/react';
 import "./globals.css";
 import Navigation from './components/Navigation'
 
@@ -84,6 +85,7 @@ export default function RootLayout({
         </div>
         <Navigation />
         {children}
+        <Analytics />
 
         <footer className="bg-white border-t border-gray-100">
           <div className="mx-auto max-w-7xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
