@@ -11,6 +11,11 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
+// Extend the global namespace
+declare global {
+  var _mongooseCache: MongooseCache | undefined;
+}
+
 let cached: MongooseCache = {
   conn: null,
   promise: null,
@@ -22,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
   if (!global._mongooseCache) {
     global._mongooseCache = cached;
   }
-  cached = global._mongooseCache;
+  cached = global._mongooseCache as MongooseCache;
 }
 
 async function connectDB() {
