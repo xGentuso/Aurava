@@ -71,8 +71,9 @@ export default function Navigation() {
                 src="/ProventaLogo.png"
                 alt="Proventa Logo"
                 width={150}
-                height={40}
-                className="object-contain"
+                height={32}
+                className="object-contain w-[150px] h-[32px]"
+                priority
               />
             </Link>
           </div>
