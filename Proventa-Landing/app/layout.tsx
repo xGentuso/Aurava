@@ -24,13 +24,10 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         
         {/* Favicon Configuration - High Priority */}
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" crossOrigin="use-credentials" />
-        <meta name="theme-color" content="#0d9488" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         
         {/* Security Headers */}
         <meta httpEquiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';" />
