@@ -249,9 +249,8 @@ export default function ContactPage() {
                   </div>
                 </form>
               )}
-              
               <div className="mt-4 text-sm text-gray-500">
-                <p>Note: This form is currently for demonstration purposes only. To contact us, please use the email address provided.</p>
+                {/* Note removed as contact form is now working */}
               </div>
             </div>
           </div>
