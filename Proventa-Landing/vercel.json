@@ -24,7 +24,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://www.proventa.health"
+          "value": "*"
         },
         {
           "key": "Access-Control-Allow-Methods",

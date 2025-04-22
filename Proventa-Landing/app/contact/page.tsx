@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -15,6 +15,23 @@ export default function ContactPage() {
     error: false,
     message: ''
   });
+
+  // Clear success message after 10 seconds
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (formStatus.success) {
+      timer = setTimeout(() => {
+        setFormStatus(prev => ({
+          ...prev,
+          success: false,
+          message: ''
+        }));
+      }, 10000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [formStatus.success]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -70,10 +87,16 @@ export default function ContactPage() {
           error: false,
           message: 'Thank you! Your message has been sent.'
         });
+        
+        // Log success for debugging
+        console.log('Message sent successfully', data);
       } else {
-        throw new Error(data.error || 'Something went wrong');
+        const errorMessage = data.details || data.error || 'Something went wrong';
+        console.error('API error response:', data);
+        throw new Error(errorMessage);
       }
     } catch (error) {
+      console.error('Contact form error:', error);
       setFormStatus({
         submitting: false,
         success: false,
@@ -226,6 +249,10 @@ export default function ContactPage() {
                   </div>
                 </form>
               )}
+              
+              <div className="mt-4 text-sm text-gray-500">
+                <p>Note: This form is currently for demonstration purposes only. To contact us, please use the email address provided.</p>
+              </div>
             </div>
           </div>
         </div>
