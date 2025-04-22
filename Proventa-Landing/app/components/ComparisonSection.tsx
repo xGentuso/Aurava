@@ -64,9 +64,20 @@ export default function ComparisonSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-6 text-lg leading-8 text-gray-600"
           >
-            Most healthcare systems react after problems occur. Proventa uses your daily data to forecast risks before symptoms arise, empowering you to live healthier, longer, and stronger.
+            Most healthcare systems react after problems occur. Proventa uses your daily data to forecast potential health insights as we develop our platform, empowering you to take control of your wellness journey.
           </motion.p>
         </div>
+
+        {/* Comparison Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="text-center mb-12"
+        >
+          <h3 className="text-xl font-bold text-gray-900 uppercase tracking-wide">Comparison</h3>
+          <div className="h-1 w-20 bg-primary-600 mx-auto mt-2"></div>
+        </motion.div>
 
         <motion.div 
           variants={containerVariants}
@@ -75,10 +86,10 @@ export default function ComparisonSection() {
           className="grid md:grid-cols-2 gap-8 lg:gap-16 relative"
         >
           {/* Connecting line between cards */}
-          <div className="absolute top-1/2 left-1/2 w-16 h-16 -translate-x-1/2 -translate-y-1/2 hidden md:block">
+          <div className="absolute top-1/2 left-1/2 w-16 h-16 -translate-x-1/2 -translate-y-1/2 hidden md:flex flex-col items-center justify-center z-10">
             <div className="w-full h-0.5 bg-gradient-to-r from-red-200 via-gray-200 to-primary-200"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
-              <span className="text-gray-400 text-sm font-medium">VS</span>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center border-2 border-gray-200">
+              <span className="text-gray-700 text-base font-bold">VS</span>
             </div>
           </div>
 
@@ -132,10 +143,10 @@ export default function ComparisonSection() {
               </div>
               <ul className="space-y-4">
                 {[
-                  'Predicts risks before symptoms',
-                  'Uninterrupted vitals tracking',
-                  'Personalized approach',
-                  'AI-powered insights'
+                  'Early risk identification technology (under development)',
+                  'Continuous health monitoring capabilities',
+                  'Personalized approach to healthcare',
+                  'AI-powered health insights (pending regulatory review)'
                 ].map((point, index) => (
                   <li key={index} className="flex items-start gap-3 group/item">
                     <svg className="w-5 h-5 text-primary-500 mt-1 group-hover/item:scale-110 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -149,11 +160,23 @@ export default function ComparisonSection() {
           </motion.div>
         </motion.div>
 
+        {/* Regulatory Disclosure */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mt-6 text-center"
+        >
+          <p className="text-xs text-gray-500 italic">
+            Note: Proventa is currently in development. Features related to health predictions and insights are under development and will be subject to appropriate regulatory approval before commercial release.
+          </p>
+        </motion.div>
+
         {/* Statistics Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {[
