@@ -49,24 +49,28 @@ export default function LegalDialog() {
 
 const privacyContent = (
   <div className="space-y-6 text-gray-600">
-    <p>Last updated: {new Date().toLocaleDateString()}</p>
+    <p>Last updated: 4/22/2025</p>
     
     <section>
       <h4 className="text-lg font-semibold text-gray-900 mb-2">1. Introduction</h4>
       <p>
-        At Proventa, we take your privacy seriously. This Privacy Policy explains how we collect, use, 
-        disclose, and safeguard your information when you use our health platform.
+        At Proventa, we're committed to protecting your privacy and handling your data with transparency and care. 
+        This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website
+        or interact with our services.
+      </p>
+      <p>
+        Proventa is currently in development. This policy will evolve as our platform matures and 
+        before we begin processing health data.
       </p>
     </section>
 
     <section>
       <h4 className="text-lg font-semibold text-gray-900 mb-2">2. Information We Collect</h4>
-      <p>We collect information that you provide directly to us, including:</p>
+      <p>We may collect the following types of information:</p>
       <ul className="list-disc pl-6 space-y-1">
-        <li>Personal identification information</li>
-        <li>Health and wellness data</li>
-        <li>Wearable device data</li>
-        <li>Environmental data</li>
+        <li><strong>Contact Information:</strong> When you sign up for our waitlist or contact us, we collect your email address and any other information you provide.</li>
+        <li><strong>Usage Data:</strong> We collect information about how you interact with our website, including pages visited and time spent.</li>
+        <li><strong>Device Information:</strong> We collect information about the device you use to access our website, such as device type, operating system, and browser.</li>
       </ul>
     </section>
 
@@ -74,18 +78,24 @@ const privacyContent = (
       <h4 className="text-lg font-semibold text-gray-900 mb-2">3. How We Use Your Information</h4>
       <p>We use the information we collect to:</p>
       <ul className="list-disc pl-6 space-y-1">
-        <li>Provide and improve our services</li>
-        <li>Generate personalized health insights</li>
-        <li>Communicate with you about our services</li>
-        <li>Ensure platform security and prevent fraud</li>
+        <li>Communicate with you about our services and updates</li>
+        <li>Improve our website and user experience</li>
+        <li>Develop new features and services</li>
+        <li>Send you marketing communications (with your consent)</li>
+        <li>Comply with legal obligations</li>
       </ul>
     </section>
 
     <section>
-      <h4 className="text-lg font-semibold text-gray-900 mb-2">4. Data Security</h4>
+      <h4 className="text-lg font-semibold text-gray-900 mb-2">4. Data Protection</h4>
       <p>
-        We implement bank-level security measures to protect your personal information. 
-        However, no method of transmission over the Internet is 100% secure.
+        We implement appropriate security measures to protect your personal information against unauthorized access, 
+        alteration, disclosure, or destruction. As we develop our platform, we are designing our systems with privacy 
+        and security as foundational principles.
+      </p>
+      <p>
+        While we strive to use commercially acceptable means to protect your information, no method of transmission 
+        over the Internet or electronic storage is 100% secure, and we cannot guarantee absolute security.
       </p>
     </section>
 
@@ -93,9 +103,11 @@ const privacyContent = (
       <h4 className="text-lg font-semibold text-gray-900 mb-2">5. Contact Us</h4>
       <p>
         If you have any questions about this Privacy Policy, please contact us at:{' '}
-        <a href="mailto:privacy@proventa.health" className="text-primary-600 hover:text-primary-500">
-          privacy@proventa.health
+        <a href="mailto:proventa.health@gmail.com" className="text-primary-600 hover:text-primary-500">
+          proventa.health@gmail.com
         </a>
+        <br />
+        Address: St. Catharines, ON, Canada
       </p>
     </section>
   </div>
@@ -103,7 +115,7 @@ const privacyContent = (
 
 const termsContent = (
   <div className="space-y-6 text-gray-600">
-    <p>Last updated: {new Date().toLocaleDateString()}</p>
+    <p>Last updated: 4/22/2025</p>
     
     <section>
       <h4 className="text-lg font-semibold text-gray-900 mb-2">1. Acceptance of Terms</h4>
@@ -120,6 +132,10 @@ const termsContent = (
         and recommendations based on data analysis, but it is not a substitute for professional medical 
         advice, diagnosis, or treatment.
       </p>
+      <p>
+        Always consult with qualified healthcare providers regarding any health concerns or conditions. 
+        Never disregard professional medical advice or delay seeking it because of something you have read on our website.
+      </p>
     </section>
 
     <section>
@@ -134,10 +150,10 @@ const termsContent = (
     </section>
 
     <section>
-      <h4 className="text-lg font-semibold text-gray-900 mb-2">4. Platform Availability</h4>
+      <h4 className="text-lg font-semibold text-gray-900 mb-2">4. Intellectual Property</h4>
       <p>
-        While we strive to maintain continuous platform availability, we do not guarantee uninterrupted 
-        access. We reserve the right to modify or discontinue the service at any time.
+        The content on our website, including text, graphics, logos, images, audio clips, digital downloads, data compilations, 
+        and software, is the property of Proventa or its content suppliers and is protected by Canadian and international copyright laws.
       </p>
     </section>
 
@@ -145,9 +161,11 @@ const termsContent = (
       <h4 className="text-lg font-semibold text-gray-900 mb-2">5. Contact</h4>
       <p>
         For questions about these Terms of Service, please contact us at:{' '}
-        <a href="mailto:legal@proventa.health" className="text-primary-600 hover:text-primary-500">
-          legal@proventa.health
+        <a href="mailto:proventa.health@gmail.com" className="text-primary-600 hover:text-primary-500">
+          proventa.health@gmail.com
         </a>
+        <br />
+        Address: St. Catharines, ON, Canada
       </p>
     </section>
   </div>
