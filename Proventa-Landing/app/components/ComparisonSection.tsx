@@ -199,7 +199,7 @@ export default function ComparisonSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>,
               stat: "Instant",
-              label: "Live Health Analytics"
+              label: "Health Data Visualization"
             }
           ].map((item, index) => (
             <motion.div
