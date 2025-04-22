@@ -2,8 +2,8 @@ import { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://proventa.health'),
-  title: "Proventa | Predict. Prevent. Prosper.",
-  description: "Proventa is a radically personalized health platform that integrates your wearable, wellness, and environmental data to predict vulnerabilities before they appear.",
+  title: "Proventa | Proactive Health Platform | Predict. Prevent. Prosper.",
+  description: "Transform your health with Proventa's AI-powered platform. Connect your wearables for personalized health insights, early risk detection, and proactive wellness management.",
   keywords: "health platform, preventative healthcare, wellness tracking, health prediction, personalized health",
   icons: {
     icon: [
