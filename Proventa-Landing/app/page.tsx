@@ -7,7 +7,6 @@ import About from './components/About';
 import ComparisonSection from './components/ComparisonSection';
 import PlatformShowcase from './components/PlatformShowcase';
 import { features, steps } from './constants';
-import WaitlistForm from './components/WaitlistForm';
 import ErrorBoundary from './components/ErrorBoundary';
 
 function LoadingSpinner() {
@@ -118,24 +117,6 @@ export default function Home() {
         <Suspense fallback={<LoadingSpinner />}>
           <About />
         </Suspense>
-
-        {/* Waitlist Section */}
-        <section id="waitlist" className="py-24 bg-gray-50">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-4">Be Part of the Health Revolution</h2>
-              <p className="text-lg text-gray-600 mb-8">
-                Join our early community and get updates, behind-the-scenes access, and a chance to shape the future of proactive healthcare.
-              </p>
-              <Suspense fallback={<LoadingSpinner />}>
-                <WaitlistForm />
-              </Suspense>
-              <p className="mt-4 text-sm text-gray-500">
-                Limited beta spots available. Early supporters will help shape the product.
-              </p>
-            </div>
-          </div>
-        </section>
       </main>
     </ErrorBoundary>
   );
