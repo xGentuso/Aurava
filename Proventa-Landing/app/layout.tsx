@@ -3,6 +3,8 @@ import { Analytics } from '@vercel/analytics/react';
 import "./globals.css";
 import ClientLayout from './components/ClientLayout';
 import { metadata } from './metadata';
+import { LegalProvider } from './context/LegalContext';
+import LegalDialog from './components/LegalDialog';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,9 +41,12 @@ export default function RootLayout({
         <meta httpEquiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()" />
       </head>
       <body className="bg-white">
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+        <LegalProvider>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
+          <LegalDialog />
+        </LegalProvider>
         <Analytics debug={true} mode="production" />
       </body>
     </html>
