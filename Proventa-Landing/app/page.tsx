@@ -8,6 +8,7 @@ import ComparisonSection from './components/ComparisonSection';
 import PlatformShowcase from './components/PlatformShowcase';
 import { features, steps } from './constants';
 import ErrorBoundary from './components/ErrorBoundary';
+import { ChartBarIcon, SparklesIcon, ArrowTrendingUpIcon } from '@heroicons/react/24/outline';
 
 function LoadingSpinner() {
   return (
@@ -52,57 +53,148 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 relative">
-              {steps.map((step, index) => (
-                <div
-                  key={step.id}
-                  className="bg-white rounded-3xl p-8 pt-12 shadow-[0_0_50px_0_rgba(0,0,0,0.05)] relative"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 200}
-                >
-                  {/* Step Number Circle */}
-                  <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-white text-sm font-medium">
-                    {index + 1}
-                  </div>
-
-                  {/* Icon */}
-                  <div className="bg-primary-50/50 w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-                    <step.icon className="h-6 w-6 text-primary-600" />
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                    {step.name}
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    {step.description}
-                  </p>
-
-                  {/* Feature List */}
-                  <ul className="space-y-3">
-                    {step.features?.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <svg className="h-5 w-5 text-primary-600 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-gray-600 text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Connector Line (only for first two cards) */}
-                  {index < 2 && (
-                    <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-primary-200"></div>
-                  )}
+            {/* Cards Container */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-16 relative">
+              {/* Step 1 */}
+              <div 
+                className="bg-white rounded-3xl p-8 shadow-[0_0_50px_0_rgba(0,0,0,0.05)] relative flex flex-col"
+                data-aos="fade-up"
+              >
+                {/* Number Badge */}
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-primary-600 flex items-center justify-center text-white text-xl font-medium shadow-md z-10">
+                  1
                 </div>
-              ))}
+                
+                {/* Icon */}
+                <div className="flex justify-center mb-5 mt-5">
+                  <div className="bg-primary-50/80 w-16 h-16 rounded-2xl flex items-center justify-center">
+                    <ChartBarIcon className="h-8 w-8 text-primary-600" />
+                  </div>
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
+                  Connect Your Data
+                </h3>
+                
+                {/* Description */}
+                <p className="text-gray-600 mb-6 text-center">
+                  Securely integrate your health data from wearables, apps, and manual inputs for a comprehensive view of your health.
+                </p>
+                
+                {/* Features */}
+                <ul className="space-y-3">
+                  {steps[0].features?.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <svg className="h-5 w-5 text-primary-600 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-gray-600 text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                {/* Connector */}
+                <div className="hidden md:block absolute top-1/2 -right-5 w-10 h-2">
+                  <div className="absolute top-1/2 transform -translate-y-1/2 w-full h-0.5 bg-primary-400"></div>
+                  <div className="absolute top-1/2 transform -translate-y-1/2 right-0 w-2 h-2 rounded-full bg-primary-500"></div>
+                </div>
+              </div>
+              
+              {/* Step 2 */}
+              <div 
+                className="bg-white rounded-3xl p-8 shadow-[0_0_50px_0_rgba(0,0,0,0.05)] relative flex flex-col"
+                data-aos="fade-up"
+                data-aos-delay="200"
+              >
+                {/* Number Badge */}
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-primary-600 flex items-center justify-center text-white text-xl font-medium shadow-md z-10">
+                  2
+                </div>
+                
+                {/* Icon */}
+                <div className="flex justify-center mb-5 mt-5">
+                  <div className="bg-primary-50/80 w-16 h-16 rounded-2xl flex items-center justify-center">
+                    <SparklesIcon className="h-8 w-8 text-primary-600" />
+                  </div>
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
+                  AI Analysis
+                </h3>
+                
+                {/* Description */}
+                <p className="text-gray-600 mb-6 text-center">
+                  Our advanced AI algorithms analyze your data to identify patterns and predict potential health risks before they become issues.
+                </p>
+                
+                {/* Features */}
+                <ul className="space-y-3">
+                  {steps[1].features?.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <svg className="h-5 w-5 text-primary-600 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-gray-600 text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                
+                {/* Connector */}
+                <div className="hidden md:block absolute top-1/2 -right-5 w-10 h-2">
+                  <div className="absolute top-1/2 transform -translate-y-1/2 w-full h-0.5 bg-primary-400"></div>
+                  <div className="absolute top-1/2 transform -translate-y-1/2 right-0 w-2 h-2 rounded-full bg-primary-500"></div>
+                </div>
+              </div>
+              
+              {/* Step 3 */}
+              <div 
+                className="bg-white rounded-3xl p-8 shadow-[0_0_50px_0_rgba(0,0,0,0.05)] relative flex flex-col"
+                data-aos="fade-up"
+                data-aos-delay="400"
+              >
+                {/* Number Badge */}
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-primary-600 flex items-center justify-center text-white text-xl font-medium shadow-md z-10">
+                  3
+                </div>
+                
+                {/* Icon */}
+                <div className="flex justify-center mb-5 mt-5">
+                  <div className="bg-primary-50/80 w-16 h-16 rounded-2xl flex items-center justify-center">
+                    <ArrowTrendingUpIcon className="h-8 w-8 text-primary-600" />
+                  </div>
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
+                  Personalized Recommendations
+                </h3>
+                
+                {/* Description */}
+                <p className="text-gray-600 mb-6 text-center">
+                  Receive tailored, evidence-based recommendations for lifestyle changes, nutrition, and activities to prevent potential health issues.
+                </p>
+                
+                {/* Features */}
+                <ul className="space-y-3">
+                  {steps[2].features?.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <svg className="h-5 w-5 text-primary-600 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-gray-600 text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             {/* Call to Action */}
-            <div className="mt-16 text-center">
+            <div className="mt-20 text-center">
               <a
                 href="#waitlist"
-                className="inline-flex items-center px-6 py-3 text-base font-semibold rounded-full text-white bg-primary-600 hover:bg-primary-500 transition-all duration-300"
+                className="inline-flex items-center px-8 py-4 text-base font-semibold rounded-full text-white bg-primary-600 hover:bg-primary-500 transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 Start Your Health Journey
                 <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
